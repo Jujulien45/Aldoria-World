@@ -3,6 +3,6 @@ from typing import Protocol
 
 class Drawable(Protocol):
     rect: pygame.Rect
-    y: float
+    centery: float
     image: pygame.Surface
     layer: int
