@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from src.sprite.drawable import Drawable
+import math
 
 if TYPE_CHECKING:
     from src.sprite.static_body import StaticBody
@@ -93,13 +94,14 @@ class Entity(pygame.sprite.Sprite, Drawable):
         # This looks weird I know, but it's actually the right way to do it
         self.velocity += self.acceleration * 0.5 * delta_time
         if self.collide_tiles:
-            x_movement, y_movement = self.solve_collision(collision_tiles)
-            self.collider.x += x_movement
-            self.collider.y += y_movement
-            self.moving = round(x_movement) and round(y_movement)
-        else:
-            self.collider.midbottom += self.velocity * delta_time
-            self.moving = round(self.velocity.x) and round(self.velocity.y)
+            x_movement, y_movement = self.solve_collision(delta_time, collision_tiles)
+            self.velocity.x = x_movement
+            self.velocity.y = y_movement
+
+        self.collider.midbottom += self.velocity * delta_time
+
+        self.moving = (math.isclose(self.velocity.x, 0.0, abs_tol=1e-07) and
+                       math.isclose(self.velocity.y, 0.0, abs_tol=1e-07))
 
         self.velocity += self.acceleration * 0.5 * delta_time
         self._force.x = 0
