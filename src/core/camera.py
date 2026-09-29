@@ -11,21 +11,14 @@ class Camera:
     def rect(self):
         return pygame.Rect(self.offset, self.size)
 
-    def set_target(self, target_pos: pygame.Vector2):
-        self.offset = target_pos - pygame.Vector2(self.size) / 2
+    def set_center(self, center: pygame.Vector2):
+        self.offset = center - pygame.Vector2(self.size) / 2
 
     def world_to_screen(self, position: pygame.Vector2 | tuple[int, int]):
-        return  - self.offset + position
+        return -self.offset + position
 
     def screen_to_world(self, position: pygame.Vector2 | tuple[int, int]):
         return self.offset + position
-
-    def draw(self, drawables: list[Drawable]):
-        ordered_drawables: list[Drawable] = sorted(drawables, key = lambda dwbl: (dwbl.y, dwbl.layer))
-
-        for drawable in ordered_drawables:
-            screen_pos = self.world_to_screen(drawable.rect.topleft)
-            self.screen_surface.blit(drawable.image, screen_pos)
 
 
 
