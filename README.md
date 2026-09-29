@@ -1,4 +1,4 @@
-# monde-d-Aldoria
+# Aldoria World
 A small pygame game made for learning purposes (SQLite)
 
 
